@@ -1,15 +1,10 @@
 package com.mafei.demo;
 
+import com.mafei.demo.model.ServiceTimeException;
 import com.mafei.demo.model.User;
-import lombok.SneakyThrows;
-import org.springframework.core.MethodParameter;
+import com.mafei.demo.model.UserAddress;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.*;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-
-import javax.validation.Validation;
-import javax.validation.ValidatorFactory;
-import java.lang.reflect.Field;
 
 /*
   @Author kalhara@bowsin
@@ -19,23 +14,23 @@ import java.lang.reflect.Field;
 public class TestService {
 
 
-    public Object index(User user, BindingResult result) throws MethodArgumentNotValidException {
+    public Object index(User user, BindingResult result) throws ServiceTimeException {
 
         result.addError(
-                ErrorBuilder.build
+                ErrorBuilder.buildWithCode
                         (
-                                User.email_error_9ee138cd,
+                                user.getAddress().getAddress(),
+                                UserAddress._address_error_1,
                                 new ErrorBuildData(
-                                        User.address_3f0599c8,
-                                        user.getClass()
+                                        User._address,
+                                        User.class
                                 ),
                                 new ErrorBuildData(
-                                        User.email_80427464,
-                                        user.getClass()
+                                        UserAddress._address,
+                                        UserAddress.class
                                 )
                         )
         );
-
-        return result.getAllErrors();
+        throw new ServiceTimeException(result.getAllErrors());
     }
 }

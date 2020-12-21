@@ -10,12 +10,18 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FrontFieldError {
+public @interface FieldError {
     /**
      * @return
      * @apiNote The error name
      */
     String name();
+
+    /**
+     * @return
+     * @apiNote this error related to the api doc
+     */
+    String errorCode();
 
 
     String uniqueID();
@@ -24,7 +30,7 @@ public @interface FrontFieldError {
      * @return
      * @apiNote The error value for error
      */
-    String value();
+    String errorMessage();
 
     Class<?>[] groups() default {};
 

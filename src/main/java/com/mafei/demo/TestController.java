@@ -1,5 +1,7 @@
 package com.mafei.demo;
 
+import com.mafei.demo.model.BeanValidateException;
+import com.mafei.demo.model.ServiceTimeException;
 import com.mafei.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -21,7 +23,11 @@ public class TestController {
     TestService testService;
 
     @PostMapping("/index")
-    public Object index(@RequestBody User user, BindingResult result) throws MethodArgumentNotValidException {
-        return testService.index(user,result);
+    public Object index(@RequestBody @Validated User user, BindingResult result) throws BeanValidateException {
+        System.out.println("result = " + result);
+        if (result.hasErrors()) {
+            throw new BeanValidateException(result.getAllErrors());
+        }
+        return testService.index(user, result);
     }
 }

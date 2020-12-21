@@ -19,28 +19,35 @@ public class FieldAnnotation {
     }
 
     public static String getFieldNameByUniqueId(String uniqueId, Class<?> baseClass) {
+        Field fieldByUniqueId = getFieldByUniqueId(uniqueId, baseClass);
+       /* for (FieldError error : fieldByUniqueId.getDeclaredAnnotation(FieldErrors.class).errors()) {
+            if ()
+        }*/
         return getFieldByUniqueId(uniqueId, baseClass).getName();
     }
 
 
     public static String getFieldErrorValueByName(Field field, String errorName) {
-        for (FrontFieldName frontFieldName : field.getDeclaredAnnotationsByType(FrontFieldName.class)) {
-            for (FrontFieldError error : frontFieldName.errors()) {
+        for (FieldErrors fieldErrors : field.getDeclaredAnnotationsByType(FieldErrors.class)) {
+            for (FieldError error : fieldErrors.errors()) {
                 if (error.name().equals(errorName)) {
-                    return error.value();
+                    return error.errorMessage();
                 }
             }
-
 
         }
         return null;
     }
 
-    public static String getFieldErrorValueByUniqueID(Field field, String UniqueID) {
-        for (FrontFieldName frontFieldName : field.getDeclaredAnnotationsByType(FrontFieldName.class)) {
-            for (FrontFieldError error : frontFieldName.errors()) {
+    public static FieldErrorResponse getFieldErrorValueByUniqueID(Field field, String UniqueID) {
+        System.out.println("field = " + field);
+        for (FieldErrors fieldErrors : field.getDeclaredAnnotationsByType(FieldErrors.class)) {
+            System.out.println("fieldErrors = " + fieldErrors);
+            for (FieldError error : fieldErrors.errors()) {
+                System.out.println("error = " + error);
                 if (error.uniqueID().equals(UniqueID)) {
-                    return error.value();
+                    return new FieldErrorResponse(field, error.errorCode(),error.errorMessage());
+//                    return error.value();
                 }
             }
         }

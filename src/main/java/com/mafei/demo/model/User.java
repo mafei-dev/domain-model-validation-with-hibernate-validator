@@ -1,7 +1,7 @@
 package com.mafei.demo.model;
 
-import com.mafei.demo.FrontFieldError;
-import com.mafei.demo.FrontFieldName;
+import com.mafei.demo.FieldError;
+import com.mafei.demo.FieldErrors;
 import com.mafei.demo.UniqueFieldID;
 import lombok.Data;
 
@@ -23,33 +23,43 @@ public class User {
     @NotNull(message = "user name can't be null.")
     private String male;
 
-    @NotNull(message = "user name can't be null.")
-    @Email(message = "email can't be null.")
 
-
-    public static final String email_80427464 = "email_80427464";
-    @UniqueFieldID(uniqueId = email_80427464)
-    public static final String email_error_9ee138cd = "email_error_9ee138cd";
-    public static final String email_error_ec8b25e6 = "email_error_ec8b25e6";
-    @FrontFieldName(name = "Merchant name", errors = {
-            @FrontFieldError(
+    //<email
+    @UniqueFieldID(uniqueId = _email)
+    @FieldErrors(name = "email", errors = {
+            @FieldError(
                     name = "duplicate",
-                    uniqueID = email_error_9ee138cd,
-                    value = "Merchant name has been duplicated."
+                    uniqueID = _email_error_1,
+                    errorMessage = _email_error_1,
+                    errorCode = "sdsd"
             ),
-            @FrontFieldError(
+            @FieldError(
                     name = "received",
-                    uniqueID = email_error_ec8b25e6,
-                    value = "Merchant name has been duplicated."
+                    uniqueID = _email_error_2,
+                    errorMessage = _email_error_2,
+                    errorCode = "ffd"
             ),
 
     })
+    @NotNull(message = "user name can't be null.")
+    @Email(message = "invalid email")
     private String email;
+    public static final String _email = "email";
+    public static final String _email_error_1 = "Merchant name has been duplicated.";
+    public static final String _email_error_2 = "Merchant name has been received.";
+    //email>
 
 
-
-    public static final String address_3f0599c8 = "address_3f0599c8";
+    //<address
     @NotNull(message = "address can't be null.")
-    @UniqueFieldID(uniqueId = address_3f0599c8)
+    @UniqueFieldID(uniqueId = _address)
     private @Valid UserAddress address;
+    public static final String _address = "address";
+    //address>
+
+    //<UserContacts
+
+    @NotNull(message = "userContacts can't be null.")
+    private @Valid UserContacts userContacts;
+    //UserContacts>
 }

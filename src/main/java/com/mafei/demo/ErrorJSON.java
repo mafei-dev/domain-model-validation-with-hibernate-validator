@@ -20,13 +20,15 @@ public class ErrorJSON {
         for (Object error : errorList) {
             if (error instanceof FieldError) {
                 FieldError fieldError = (FieldError) error;
-
-                errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+                Map<String, Object> fError = new HashMap<>();
+                fError.put("message", fieldError.getDefaultMessage());
+                fError.put("code", fieldError.getCode());
+                errors.put(fieldError.getField(), fError);
             }
-            if (error instanceof ObjectError) {
+           /* if (error instanceof ObjectError) {
                 ObjectError objectError = (ObjectError) error;
                 errors.put(objectError.getObjectName(), objectError.getDefaultMessage());
-            }
+            }*/
         }
         return errors;
     }

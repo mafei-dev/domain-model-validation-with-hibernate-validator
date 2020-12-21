@@ -10,14 +10,14 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface FrontFieldName {
+public @interface FieldErrors {
     /**
      * @return
      * @apiNote The name from the front
      */
     String name();
 
-    FrontFieldError[] errors() default {};
+    FieldError[] errors() default {};
 
     Class<?>[] groups() default {};
 
